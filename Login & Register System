@@ -1,0 +1,63 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+// Function to register a new user
+void registerUser() {
+    string username, password;
+    
+    cout << "Enter a username: ";
+    cin >> username;
+    cout << "Enter a password: ";
+    cin >> password;
+
+    // Open file to store credentials
+    ofstream outFile("users.txt", ios::app);
+    outFile << username << " " << password << endl;
+    outFile.close();
+
+    cout << "Registration successful!" << endl;
+}
+
+// Function to login an existing user
+bool loginUser() {
+    string username, password, u, p;
+    
+    cout << "Enter your username: ";
+    cin >> username;
+    cout << "Enter your password: ";
+    cin >> password;
+
+    // Open file to read stored credentials
+    ifstream inFile("users.txt");
+    while (inFile >> u >> p) {
+        if (u == username && p == password) {
+            inFile.close();
+            return true;
+        }
+    }
+
+    inFile.close();
+    return false;
+}
+
+int main() {
+    int choice;
+    cout << "1. Register\n2. Login\nEnter your choice: ";
+    cin >> choice;
+
+    if (choice == 1) {
+        registerUser();
+    } else if (choice == 2) {
+        if (loginUser()) {
+            cout << "Login successful!" << endl;
+        } else {
+            cout << "Invalid username or password." << endl;
+        }
+    } else {
+        cout << "Invalid choice!" << endl;
+    }
+
+    return 0;
+}
